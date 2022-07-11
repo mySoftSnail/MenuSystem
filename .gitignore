@@ -72,3 +72,6 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# 모든 uasset 파일 올리지 않음
+*.uasset
