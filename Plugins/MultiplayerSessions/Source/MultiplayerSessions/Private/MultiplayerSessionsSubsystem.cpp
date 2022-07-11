@@ -90,7 +90,7 @@ void UMultiplayerSessionsSubsystem::JoinSession(const FOnlineSessionSearchResult
 
 	JoinSessionCompleteDelegateHandle = SessionInterface->AddOnJoinSessionCompleteDelegate_Handle(JoinSessionCompleteDelegate);
 
-	SessionInterface->JoinSession()
+	SessionInterface->JoinSession()...
 }
 
 void UMultiplayerSessionsSubsystem::DestroySession()
