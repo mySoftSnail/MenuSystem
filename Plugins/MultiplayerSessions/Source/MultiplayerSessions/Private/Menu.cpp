@@ -108,6 +108,8 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 				FString(TEXT("Failed to create session!"))
 			);
 		}
+
+		HostButton->SetIsEnabled(true); // 비활성화했던 버튼 다시 활성화
 	}
 }
 
@@ -127,6 +129,11 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 			MultiplayerSessionsSubsystem->JoinSession(Result);
 			return;
 		}
+	}
+
+	if (!bWasSuccessful || SessionResults.Num() == 0)
+	{
+		JoinButton->SetIsEnabled(true); // 비활성화했던 버튼 다시 활성화
 	}
 }
 
@@ -150,6 +157,11 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 				MultiplayerSessionsSubsystem->StartSession();
 			}
 		}
+	}
+
+	if (Result != EOnJoinSessionCompleteResult::Success)
+	{
+		JoinButton->SetIsEnabled(true); // 비활성화했던 버튼 다시 활성화
 	}
 }
 
@@ -186,6 +198,8 @@ void UMenu::OnStartSession(bool bWasSuccessful)
 
 void UMenu::HostButtonClicked()
 {
+	HostButton->SetIsEnabled(false); // 버튼 연속 클릭 방지
+
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
@@ -194,6 +208,8 @@ void UMenu::HostButtonClicked()
 
 void UMenu::JoinButtonClicked()
 {
+	JoinButton->SetIsEnabled(false); // 버튼 연속 클릭 방지
+
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->FindSessions(10000);
