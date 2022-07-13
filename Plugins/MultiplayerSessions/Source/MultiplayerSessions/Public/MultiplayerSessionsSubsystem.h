@@ -12,7 +12,6 @@
 //	Declaring our own custon delegates for the Menu class to bind callbacks to 
 //	
 
-
 //      DYNAMIC: it means the delegate can be serialized and they can be saved or loaded from within a blueprint graph. In blueprint, they're called event dispatchers.
 //				MULTICAST: it means once it's broadcast, multiple classes can bind their functions to it.
 											// 델리게이트 이름, 파라미터1의 타입, 파라미터1의 이름

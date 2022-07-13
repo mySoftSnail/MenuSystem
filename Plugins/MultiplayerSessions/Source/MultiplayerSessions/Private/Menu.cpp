@@ -6,8 +6,10 @@
 #include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
 
-void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
+void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString LobbyPath)
 {
+	PathToLobby = FString::Printf(TEXT("%s?listen"), *LobbyPath);
+
 	NumPublicConnections = NumberOfPublicConnections;
 	MatchType = TypeOfMatch;
 
@@ -92,7 +94,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			World->ServerTravel("/Game/ThirdPerson/Maps/Lobby?listen");
+			World->ServerTravel(PathToLobby);
 		}
 	}
 	else
@@ -143,6 +145,9 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 			if (PlayerController)
 			{
 				PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+
+				// start session
+				MultiplayerSessionsSubsystem->StartSession();
 			}
 		}
 	}
@@ -154,6 +159,29 @@ void UMenu::OnDestroySession(bool bWasSuccessful)
 
 void UMenu::OnStartSession(bool bWasSuccessful)
 {
+	if (GEngine)
+	{
+		if (bWasSuccessful)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Green,
+				FString(TEXT("UMenu::OnStartSession - Success!"))
+			);
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Green,
+				FString(TEXT("UMenu::OnStartSession - Fail..."))
+			);
+		}
+
+	}
+
 }
 
 void UMenu::HostButtonClicked()
